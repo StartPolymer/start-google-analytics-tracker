@@ -14,6 +14,7 @@ bower install google-analytics-universal-tracker --save
 
 ```html
 <link rel="import" href="bower_components/google-analytics-universal-tracker/google-analytics-universal-tracker.html">
+<!--...-->
 <google-analytics-universal-tracker code="UA-25844378-1"></google-analytics-universal-tracker>
 ```	
 
