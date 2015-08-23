@@ -1,0 +1,32 @@
+{
+  "name": "google-analytics-universal-tracker",
+  "version": "0.1.0",
+  "homepage": "https://github.com/matthewlawson/google-analytics-tracker",
+  "authors": [
+    "Matthew Lawson <mattlaw1@gmail.com>"
+  ],
+  "description": "Polymer Element for Google Analytics Universal tracker, supports page and event tracking",
+  "main": "google-analytics-universal-tracker.html",
+  "keywords": [
+    "Google",
+    "Analytics",
+    "Polymer",
+    "web",
+    "component",
+    "web",
+    "components"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "iron-signals": "PolymerElements/iron-signals#~1.0.2",
+    "polymer": "~1.1.1",
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  }
+}

@@ -1,0 +1,81 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-signals/iron-signals.html">	
+<!--
+Polymer Element for Google Analytics Universal tracker, supports page and event tracking
+
+Initialise:
+
+    <google-analytics-universal-tracker code="UA-25844378-1"></google-analytics-universal-tracker>
+	
+Track an Event:
+
+    this.fire('iron-signal', {name: 'track-event',data: {category: "messages",action: "send_text_message",label: "group",value: 1}});
+
+Track a page Change:
+
+    this.fire('iron-signal', {name: 'track-page', data: { path: "/about.html" } });	
+
+To use Google Analytics user id attribution https://developers.google.com/analytics/devguides/collection/analyticsjs/user-id set the user id property on the element:
+
+    document.querySelector("google-analytics-universal-tracker").userId = loggedInUserId;
+    
+@demo demo/index.html
+-->
+<dom-module id="google-analytics-universal-tracker">
+    <template>
+        <iron-signals on-iron-signal-track-page="trackPage" on-iron-signal-track-event="trackEvent"></iron-signals>
+    </template>
+</dom-module>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	              m=s.getElementsByTagName('link')[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+				  
+    (function() {
+        Polymer({
+            is: 'google-analytics-universal-tracker',
+            properties: {
+                /**
+                 * The Google analytics property id
+                 */
+                code: {
+                    type: String
+                },
+                /**
+                 * Optional user id, set this for a use authenticated with your service
+                 * https://developers.google.com/analytics/devguides/collection/analyticsjs/user-id
+                 */
+                userId: {
+                    type: String,
+                    notify: true
+                }
+            },
+            listeners: {
+                'track-event': 'trackEvent',
+                'track-page': 'trackPage',
+                'user-id-changed': 'userIDChanged'
+            },
+            ready: function() {
+				console.log("setup GS for "+this.code);
+                ga('create', this.code, 'auto');
+                this.trackPage();
+            },
+            trackEvent: function(e) {
+                //Add support for a non-interactin even that does not effect bounce rates - eg things that happen after a timeout
+                //ga('send', 'event', 'category', 'action', {'nonInteraction': 1});
+                ga('send', 'event', e.detail.category, e.detail.action, e.detail.label, e.detail.value);
+            },
+            trackPage: function(e) {
+                //Use set param, this way if we then send a subsequent event on the page it will be correctly associated with the same page
+                if (e != undefined && e.detail.path !== undefined) {
+                    ga('set', 'page', e.detail.path);
+                }
+                ga('send', 'pageview');
+            },
+            userIDChanged: function(e) {
+                ga('set', '&uid', this.userId);
+            }
+        });
+    })();
+</script>
