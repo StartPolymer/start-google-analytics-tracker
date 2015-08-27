@@ -1,40 +1,38 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-signals/iron-signals.html">	
+<link rel="import" href="../iron-signals/iron-signals.html">
 <!--
-Polymer Element for Google Analytics Universal tracker, supports page and event tracking
+Polymer Element for Google Analytics Universal Web Tracking, supports page and event tracking.
 
 Initialise:
 
-    <google-analytics-universal-tracker code="UA-25844378-1"></google-analytics-universal-tracker>
-	
+    <start-google-analytics-tracker code="UA-XXXXX-Y"></start-google-analytics-tracker>
+
 Track an Event:
 
     this.fire('iron-signal', {name: 'track-event',data: {category: "messages",action: "send_text_message",label: "group",value: 1}});
 
 Track a page Change:
 
-    this.fire('iron-signal', {name: 'track-page', data: { path: "/about.html" } });	
+    this.fire('iron-signal', {name: 'track-page', data: { path: "/about.html" } });
 
 To use Google Analytics user id attribution https://developers.google.com/analytics/devguides/collection/analyticsjs/user-id set the user id property on the element:
 
-    document.querySelector("google-analytics-universal-tracker").userId = loggedInUserId;
-    
-@demo demo/index.html
+    document.querySelector("start-google-analytics-tracker").userId = loggedInUserId;
 -->
-<dom-module id="google-analytics-universal-tracker">
+<dom-module id="start-google-analytics-tracker">
     <template>
         <iron-signals on-iron-signal-track-page="trackPage" on-iron-signal-track-event="trackEvent"></iron-signals>
     </template>
 </dom-module>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	              m=s.getElementsByTagName('link')[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-				  
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName('link')[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','scripts/analytics.js','ga');
+
     (function() {
         Polymer({
-            is: 'google-analytics-universal-tracker',
+            is: 'start-google-analytics-tracker',
             properties: {
                 /**
                  * The Google analytics property id
@@ -57,7 +55,7 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
                 'user-id-changed': 'userIDChanged'
             },
             ready: function() {
-				console.log("setup GS for "+this.code);
+        console.log("setup GS for "+this.code);
                 ga('create', this.code, 'auto');
                 this.trackPage();
             },

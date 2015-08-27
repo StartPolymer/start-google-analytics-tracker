@@ -1,21 +1,24 @@
 {
-  "name": "google-analytics-universal-tracker",
-  "version": "0.1.0",
-  "homepage": "https://github.com/matthewlawson/google-analytics-universal-tracker",
+  "name": "start-google-analytics-tracker",
+  "version": "1.1.0",
+  "homepage": "https://github.com/StartPolymer/start-google-analytics-tracker",
   "authors": [
+    "Start Polymer",
     "Matthew Lawson <mattlaw1@gmail.com>"
   ],
-  "description": "Polymer Element for Google Analytics Universal tracker, supports page and event tracking",
-  "main": "google-analytics-universal-tracker.html",
+  "description": "Polymer Element for Google Analytics Web Tracking, supports page and event tracking.",
+  "main": "start-google-analytics-tracker.html",
   "keywords": [
-    "Google",
-    "Analytics",
-    "Polymer",
-    "web",
-    "component",
-    "web",
-    "components"
+    "web-components",
+    "polymer",
+    "start-polymer",
+    "element",
+    "google-analytics"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/StartPolymer/start-google-analytics-tracker.git"
+  },
   "license": "MIT",
   "ignore": [
     "**/.*",
@@ -25,8 +28,7 @@
     "tests"
   ],
   "dependencies": {
-    "iron-signals": "PolymerElements/iron-signals#~1.0.2",
-    "polymer": "~1.1.1",
-    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+    "polymer": "Polymer/polymer#^1.0.0",
+    "iron-signals": "PolymerElements/iron-signals#^1.0.2"
   }
 }
