@@ -21,14 +21,14 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
 -->
 <dom-module id="start-google-analytics-tracker">
     <template>
-        <iron-signals on-iron-signal-track-page="trackPage" on-iron-signal-track-event="trackEvent"></iron-signals>
+        <iron-signals on-iron-signal-track-page="trackPage" on-iron-signal-track-event="trackEvent" on-iron-signal-track-error="trackError"></iron-signals>
     </template>
 </dom-module>
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName('link')[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-              })(window,document,'script','scripts/analytics.js','ga');
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName('link')[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','scripts/analytics.js','ga');
 
     (function() {
         Polymer({
@@ -52,6 +52,7 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
             listeners: {
                 'track-event': 'trackEvent',
                 'track-page': 'trackPage',
+                'track-error': 'trackError',
                 'user-id-changed': 'userIDChanged'
             },
             ready: function() {
@@ -60,9 +61,19 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
                 this.trackPage();
             },
             trackEvent: function(e) {
-                //Add support for a non-interactin even that does not effect bounce rates - eg things that happen after a timeout
-                //ga('send', 'event', 'category', 'action', {'nonInteraction': 1});
-                ga('send', 'event', e.detail.category, e.detail.action, e.detail.label, e.detail.value);
+                // Handle it not being set.
+                if(e.detail.nonInteraction == null){
+                    e.detail.nonInteraction = false;
+                }
+                ga('send', 'event', e.detail.category, e.detail.action, e.detail.label, e.detail.value, {'nonInteraction': e.detail.nonInteraction});
+            },
+            trackError: function(e){
+                console.log('tracking error');
+                console.log(e);
+                ga('send', 'exception', {
+                    'exDescription': e.detail.message,
+                    'exFatal': false
+                });
             },
             trackPage: function(e) {
                 //Use set param, this way if we then send a subsequent event on the page it will be correctly associated with the same page
