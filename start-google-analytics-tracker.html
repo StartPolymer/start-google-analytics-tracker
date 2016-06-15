@@ -21,7 +21,7 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
 -->
 <dom-module id="start-google-analytics-tracker">
     <template>
-        <iron-signals on-iron-signal-track-page="trackPage" on-iron-signal-track-event="trackEvent"></iron-signals>
+        <iron-signals on-iron-signal-track-page="trackPage" on-iron-signal-track-event="trackEvent" on-iron-signal-track-error="trackError"></iron-signals>
     </template>
 </dom-module>
 <script>
@@ -65,11 +65,13 @@ To use Google Analytics user id attribution https://developers.google.com/analyt
                 if(e.detail.nonInteraction == null){
                     e.detail.nonInteraction = false;
                 }
-                ga('send', 'event', e.detail.category, e.detail.action, e.detail.label, e.detail.value, e.detail.nonInteraction);
+                ga('send', 'event', e.detail.category, e.detail.action, e.detail.label, e.detail.value, {'nonInteraction': e.detail.nonInteraction});
             },
             trackError: function(e){
+                console.log('tracking error');
+                console.log(e);
                 ga('send', 'exception', {
-                    'exDescription': err.detail.message,
+                    'exDescription': e.detail.message,
                     'exFatal': false
                 });
             },
